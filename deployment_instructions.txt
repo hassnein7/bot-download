@@ -19,6 +19,7 @@ This guide explains how to deploy the video downloader bot to Render.
     *   **Environment:** Select "Python 3".
     *   **Build Command:** `pip install -r requirements.txt`
     *   **Start Command:** `python main.py`
+    *   In the "Run command" field, enter `python main.py`.
     *   **Region:** Choose a region close to your users.
 
 3.  **Set environment variables (if needed):**
@@ -28,8 +29,16 @@ This guide explains how to deploy the video downloader bot to Render.
     *   Click on "Create Web Service".
     *   Render will automatically build and deploy your bot.
 
+## Telegram Bot Usage
+
+1.  Send the /start command to the bot to initiate the conversation.
+2.  Send a YouTube link to the bot.
+3.  The bot will reply with options to download the video or audio.
+4.  Use /video [url] to download video.
+5.  Use /audio [url] to download audio.
+
 ## Notes
 
 *   Render automatically detects changes in your GitHub repository and redeploys your bot.
 *   You can view the logs in the Render dashboard to troubleshoot any issues.
-*   Consider using a more robust framework like Flask or Django for a production-ready bot.
+*   Make sure your bot token is stored securely. Consider using environment variables instead of hardcoding it in the code.
