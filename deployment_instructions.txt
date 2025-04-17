@@ -1,0 +1,35 @@
+# Deployment Instructions for Render
+
+This guide explains how to deploy the video downloader bot to Render.
+
+## Prerequisites
+
+*   A Render account. You can sign up at [https://render.com/](https://render.com/).
+*   A GitHub repository containing your bot's code (main.py, requirements.txt).
+
+## Steps
+
+1.  **Create a new web service on Render:**
+    *   Log in to your Render account.
+    *   Click on "New +" and select "Web Service".
+    *   Connect your GitHub repository.
+
+2.  **Configure the web service:**
+    *   **Name:** Choose a name for your service.
+    *   **Environment:** Select "Python 3".
+    *   **Build Command:** `pip install -r requirements.txt`
+    *   **Start Command:** `python main.py`
+    *   **Region:** Choose a region close to your users.
+
+3.  **Set environment variables (if needed):**
+    *   If your bot requires any environment variables (e.g., API keys), add them in the "Environment Variables" section.
+
+4.  **Deploy the service:**
+    *   Click on "Create Web Service".
+    *   Render will automatically build and deploy your bot.
+
+## Notes
+
+*   Render automatically detects changes in your GitHub repository and redeploys your bot.
+*   You can view the logs in the Render dashboard to troubleshoot any issues.
+*   Consider using a more robust framework like Flask or Django for a production-ready bot.
