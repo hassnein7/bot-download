@@ -3,7 +3,7 @@ import telegram
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, MessageHandler, filters, CallbackQueryHandler
 import re
-import os # Import the os module
+import os
 
 # Read the bot token from an environment variable for security
 TOKEN = os.getenv("BOT_TOKEN")
@@ -40,16 +40,11 @@ def download_audio(update, context, url, output_path=".", message_id=None):
         context.bot.edit_message_text(chat_id=update.effective_chat.id, message_id=message_id, text=f"Error downloading audio: {e}")
 
 
-def start(update, context):
-    update.message.reply_text("Welcome to the video downloader bot! Send me a link to download a video or audio.")
-
-def help_command(update, context):
-    update.message.reply_text("Send me a link from any website to download the video. If it's a YouTube link, I'll ask if you want video or audio.")
 
 
 
-# Basic URL validation regex
-URL_REGEX = r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
+
+URL_REGEX = r"https?://[^\s]+"
 
 def handle_message(update, context):
     text = str(update.message.text)
@@ -97,15 +92,8 @@ def button_handler(update, context):
 if __name__ == '__main__':
     updater = Updater(TOKEN, use_context=True)
     dp = updater.dispatcher
-
-    dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(CommandHandler("help", help_command))
-    # Use MessageHandler with regex filter for URLs first
-    dp.add_handler(MessageHandler(filters.text & filters.entity("url") | filters.text & filters.entity("text_link"), handle_message))
-    # Add a handler for button clicks
+    dp.add_handler(MessageHandler(filters.text & filters.entity("url") | filters.text & filters.entity("text_link") | filters.text & ~filters.command, handle_message))
     dp.add_handler(CallbackQueryHandler(button_handler))
-    # Fallback for non-URL text messages
-    dp.add_handler(MessageHandler(filters.text & ~filters.command, handle_message))
 
     updater.start_polling()
     updater.idle()

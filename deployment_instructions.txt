@@ -29,7 +29,7 @@ This guide explains how to deploy the video downloader bot to Render.
         *   **Value:** Your actual Telegram Bot Token.
     *   Add any other required environment variables here.
 
-4.  **Deploy the service:**
+4.  **Deploy the servic e:**
     *   Click on "Create Web Service".
     *   Render will automatically build and deploy your bot.
 
