@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم البيانات</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap');
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .data-table th, .data-table td {
+            padding: 12px 15px;
+            text-align: right;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .data-table th {
+            background-color: #f8fafc;
+            font-weight: 600;
+        }
+        
+        .data-table tr:hover {
+            background-color: #f8fafc;
+        }
+        
+        .filter-btn.active {
+            background-color: #3b82f6;
+            color: white;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <div class="min-h-screen flex flex-col">
+        <!-- شريط التنقل العلوي -->
+        <header class="bg-white shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-chart-line text-blue-500 text-2xl"></i>
+                        </div>
+                        <h1 class="text-xl font-bold text-gray-800 mr-3">لوحة تحكم البيانات</h1>
+                    </div>
+                    <div class="flex items-center space-x-4 space-x-reverse">
+                        <div class="relative">
+                            <button class="p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200">
+                                <i class="fas fa-bell"></i>
+                                <span class="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
+                            </button>
+                        </div>
+                        <div class="flex items-center">
+                            <img class="h-8 w-8 rounded-full" src="https://ui-avatars.com/api/?name=مستخدم&background=3b82f6&color=fff" alt="صورة المستخدم">
+                            <span class="mr-2 text-sm font-medium">مرحباً، أحمد</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- المحتوى الرئيسي -->
+        <main class="flex-grow">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <!-- بطاقات الإحصائيات الرئيسية -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white rounded-lg shadow p-6 card-hover transition-all duration-300">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">إجمالي المبيعات</p>
+                                <p class="text-2xl font-bold mt-1">245,854 <span class="text-green-500 text-sm">+12.5%</span></p>
+                            </div>
+                            <div class="p-3 rounded-full bg-blue-50 text-blue-500">
+                                <i class="fas fa-shopping-cart text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="h-1 w-full bg-gray-200 rounded-full">
+                                <div class="h-1 bg-blue-500 rounded-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow p-6 card-hover transition-all duration-300">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">المستخدمون الجدد</p>
+                                <p class="text-2xl font-bold mt-1">1,254 <span class="text-green-500 text-sm">+8.2%</span></p>
+                            </div>
+                            <div class="p-3 rounded-full bg-green-50 text-green-500">
+                                <i class="fas fa-users text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="h-1 w-full bg-gray-200 rounded-full">
+                                <div class="h-1 bg-green-500 rounded-full" style="width: 60%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow p-6 card-hover transition-all duration-300">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">أعلى منتج مبيعاً</p>
+                                <p class="text-2xl font-bold mt-1">حاسوب محمول</p>
+                            </div>
+                            <div class="p-3 rounded-full bg-purple-50 text-purple-500">
+                                <i class="fas fa-laptop text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="h-1 w-full bg-gray-200 rounded-full">
+                                <div class="h-1 bg-purple-500 rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow p-6 card-hover transition-all duration-300">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">معدل التحويل</p>
+                                <p class="text-2xl font-bold mt-1">3.2% <span class="text-red-500 text-sm">-1.1%</span></p>
+                            </div>
+                            <div class="p-3 rounded-full bg-yellow-50 text-yellow-500">
+                                <i class="fas fa-exchange-alt text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="h-1 w-full bg-gray-200 rounded-full">
+                                <div class="h-1 bg-yellow-500 rounded-full" style="width: 32%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- الرسوم البيانية -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <!-- رسم بياني خطي -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-lg font-bold">مبيعات الشهر الحالي</h2>
+                            <div class="flex space-x-2 space-x-reverse">
+                                <button class="filter-btn active px-3 py-1 rounded-full text-xs bg-blue-100 text-blue-600">يومي</button>
+                                <button class="filter-btn px-3 py-1 rounded-full text-xs bg-gray-100 text-gray-600">أسبوعي</button>
+                                <button class="filter-btn px-3 py-1 rounded-full text-xs bg-gray-100 text-gray-600">شهري</button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="lineChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- رسم بياني دائري -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-lg font-bold">توزيع المبيعات حسب الفئة</h2>
+                            <button id="refreshPieChart" class="p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="pieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- جدول البيانات -->
+                <div class="bg-white rounded-lg shadow overflow-hidden mb-8">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-center">
+                            <h2 class="text-lg font-bold">آخر الطلبات</h2>
+                            <div class="flex space-x-3 space-x-reverse">
+                                <div class="relative">
+                                    <select id="filterCategory" class="appearance-none bg-gray-100 border border-gray-300 rounded-md pl-3 pr-8 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">كل الفئات</option>
+                                        <option value="إلكترونيات">إلكترونيات</option>
+                                        <option value="ملابس">ملابس</option>
+                                        <option value="أثاث">أثاث</option>
+                                        <option value="كتب">كتب</option>
+                                    </select>
+                                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                                        <i class="fas fa-chevron-down text-gray-500"></i>
+                                    </div>
+                                </div>
+                                <button id="toggleView" class="p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200">
+                                    <i class="fas fa-table"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="data-table w-full">
+                            <thead>
+                                <tr>
+                                    <th class="cursor-pointer sortable" data-column="id">رقم الطلب <i class="fas fa-sort ml-1"></i></th>
+                                    <th class="cursor-pointer sortable" data-column="customer">العميل <i class="fas fa-sort ml-1"></i></th>
+                                    <th class="cursor-pointer sortable" data-column="date">التاريخ <i class="fas fa-sort ml-1"></i></th>
+                                    <th class="cursor-pointer sortable" data-column="amount">المبلغ <i class="fas fa-sort ml-1"></i></th>
+                                    <th class="cursor-pointer sortable" data-column="status">الحالة <i class="fas fa-sort ml-1"></i></th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTableBody">
+                                <!-- سيتم ملؤه بواسطة JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="px-6 py-4 border-t border-gray-200 flex justify-between items-center">
+                        <div class="text-sm text-gray-600">
+                            عرض <span id="startItem">1</span> إلى <span id="endItem">5</span> من <span id="totalItems">15</span> عنصر
+                        </div>
+                        <div class="flex space-x-2 space-x-reverse">
+                            <button id="prevPage" class="px-3 py-1 rounded-md bg-gray-100 text-gray-600 disabled:opacity-50" disabled>السابق</button>
+                            <button id="nextPage" class="px-3 py-1 rounded-md bg-gray-100 text-gray-600">التالي</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- تذييل الصفحة -->
+        <footer class="bg-white border-t border-gray-200 py-4">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-sm text-gray-500">© 2023 لوحة تحكم البيانات. جميع الحقوق محفوظة.</p>
+                    <div class="flex space-x-6 space-x-reverse mt-4 md:mt-0">
+                        <a href="#" class="text-gray-500 hover:text-gray-700">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-gray-700">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-gray-700">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // بيانات محاكاة للرسوم البيانية
+        document.addEventListener('DOMContentLoaded', function() {
+            // الرسم البياني الخطي
+            const lineCtx = document.getElementById('lineChart').getContext('2d');
+            const lineChart = new Chart(lineCtx, {
+                type: 'line',
+                data: {
+                    labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
+                    datasets: [{
+                        label: 'المبيعات اليومية',
+                        data: [12000, 19000, 15000, 22000, 18000, 25000, 30000, 28000, 32000, 35000, 38000, 40000, 42000, 45000, 48000],
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true,
+                        pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            rtl: true,
+                            callbacks: {
+                                label: function(context) {
+                                    return 'المبلغ: ' + context.parsed.y.toLocaleString() + ' ر.س';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString() + ' ر.س';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // الرسم البياني الدائري
+            const pieCtx = document.getElementById('pieChart').getContext('2d');
+            const pieChart = new Chart(pieCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['إلكترونيات', 'ملابس', 'أثاث', 'كتب', 'أخرى'],
+                    datasets: [{
+                        data: [45, 25, 15, 10, 5],
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.7)',
+                            'rgba(16, 185, 129, 0.7)',
+                            'rgba(139, 92, 246, 0.7)',
+                            'rgba(245, 158, 11, 0.7)',
+                            'rgba(156, 163, 175, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(59, 130, 246, 1)',
+                            'rgba(16, 185, 129, 1)',
+                            'rgba(139, 92, 246, 1)',
+                            'rgba(245, 158, 11, 1)',
+                            'rgba(156, 163, 175, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'left',
+                            rtl: true
+                        },
+                        tooltip: {
+                            rtl: true,
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.label || '';
+                                    const value = context.raw || 0;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((value / total) * 100);
+                                    return `${label}: ${percentage}% (${value.toLocaleString()} ر.س)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // بيانات محاكاة للجدول
+            const orders = [
+                { id: 1001, customer: 'أحمد محمد', date: '2023-05-15', amount: 1250, status: 'مكتمل', category: 'إلكترونيات' },
+                { id: 1002, customer: 'سارة عبدالله', date: '2023-05-14', amount: 850, status: 'قيد التجهيز', category: 'ملابس' },
+                { id: 1003, customer: 'خالد علي', date: '2023-05-14', amount: 3200, status: 'مكتمل', category: 'إلكترونيات' },
+                { id: 1004, customer: 'نورة سعيد', date: '2023-05-13', amount: 450, status: 'ملغى', category: 'كتب' },
+                { id: 1005, customer: 'محمد حسن', date: '2023-05-12', amount: 1800, status: 'مكتمل', category: 'أثاث' },
+                { id: 1006, customer: 'فاطمة عمر', date: '2023-05-11', amount: 670, status: 'قيد التجهيز', category: 'ملابس' },
+                { id: 1007, customer: 'يوسف كمال', date: '2023-05-10', amount: 2300, status: 'مكتمل', category: 'إلكترونيات' },
+                { id: 1008, customer: 'ليلى أحمد', date: '2023-05-09', amount: 890, status: 'ملغى', category: 'كتب' },
+                { id: 1009, customer: 'عمر خالد', date: '2023-05-08', amount: 1500, status: 'مكتمل', category: 'أثاث' },
+                { id: 1010, customer: 'هناء محمد', date: '2023-05-07', amount: 750, status: 'قيد التجهيز', category: 'ملابس' }
+            ];
+
+            // متغيرات للترتيب والتصفية
+            let currentSortColumn = 'id';
+            let currentSortDirection = 'asc';
+            let currentPage = 1;
+            const itemsPerPage = 5;
+            let filteredOrders = [...orders];
+
+            // عرض البيانات في الجدول
+            function renderTable() {
+                const startIndex = (currentPage - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+                const paginatedOrders = filteredOrders.slice(startIndex, endIndex);
+                
+                const tableBody = document.getElementById('ordersTableBody');
+                tableBody.innerHTML = '';
+                
+                paginatedOrders.forEach(order => {
+                    const row = document.createElement('tr');
+                    
+                    let statusClass = '';
+                    if (order.status === 'مكتمل') statusClass = 'text-green-600 bg-green-50';
+                    else if (order.status === 'قيد التجهيز') statusClass = 'text-blue-600 bg-blue-50';
+                    else if (order.status === 'ملغى') statusClass = 'text-red-600 bg-red-50';
+                    
+                    row.innerHTML = `
+                        <td class="font-medium">#${order.id}</td>
+                        <td>${order.customer}</td>
+                        <td>${order.date}</td>
+                        <td class="font-medium">${order.amount.toLocaleString()} ر.س</td>
+                        <td><span class="px-2 py-1 rounded-full text-xs ${statusClass}">${order.status}</span></td>
+                        <td>
+                            <button class="p-2 text-gray-500 hover:text-blue-500">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="p-2 text-gray-500 hover:text-green-500">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </td>
+                    `;
+                    
+                    tableBody.appendChild(row);
+                });
+                
+                // تحديث معلومات الصفحة
+                document.getElementById('startItem').textContent = startIndex + 1;
+                document.getElementById('endItem').textContent = Math.min(endIndex, filteredOrders.length);
+                document.getElementById('totalItems').textContent = filteredOrders.length;
+                
+                // تفعيل/تعطيل أزرار الصفحة
+                document.getElementById('prevPage').disabled = currentPage === 1;
+                document.getElementById('nextPage').disabled = endIndex >= filteredOrders.length;
+            }
+
+            // فرز البيانات
+            function sortData(column, direction) {
+                filteredOrders.sort((a, b) => {
+                    let valueA = a[column];
+                    let valueB = b[column];
+                    
+                    if (column === 'date') {
+                        valueA = new Date(valueA);
+                        valueB = new Date(valueB);
+                    } else if (column === 'amount') {
+                        valueA = Number(valueA);
+                        valueB = Number(valueB);
+                    }
+                    
+                    if (valueA < valueB) return direction === 'asc' ? -1 : 1;
+                    if (valueA > valueB) return direction === 'asc' ? 1 : -1;
+                    return 0;
+                });
+                
+                renderTable();
+            }
+
+            // تصفية البيانات حسب الفئة
+            document.getElementById('filterCategory').addEventListener('change', function() {
+                const category = this.value;
+                
+                if (category === '') {
+                    filteredOrders = [...orders];
+                } else {
+                    filteredOrders = orders.filter(order => order.category === category);
+                }
+                
+                currentPage = 1;
+                sortData(currentSortColumn, currentSortDirection);
+            });
+
+            // تبديل طريقة العرض
+            document.getElementById('toggleView').addEventListener('click', function() {
+                const icon = this.querySelector('i');
+                if (icon.classList.contains('fa-table')) {
+                    icon.classList.remove('fa-table');
+                    icon.classList.add('fa-chart-bar');
+                    // هنا يمكنك إضافة كود لتبديل العرض إلى رسوم بيانية
+                } else {
+                    icon.classList.remove('fa-chart-bar');
+                    icon.classList.add('fa-table');
+                }
+            });
+
+            // فرز عند النقر على عناوين الأعمدة
+            document.querySelectorAll('.sortable').forEach(header => {
+                header.addEventListener('click', function() {
+                    const column = this.dataset.column;
+                    
+                    if (column === currentSortColumn) {
+                        currentSortDirection = currentSortDirection === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        currentSortColumn = column;
+                        currentSortDirection = 'asc';
+                    }
+                    
+                    // إعادة تعيين أيقونات الفرز
+                    document.querySelectorAll('.sortable i').forEach(icon => {
+                        icon.className = 'fas fa-sort ml-1';
+                    });
+                    
+                    // تعيين الأيقونة المناسبة للعمود الحالي
+                    const icon = this.querySelector('i');
+                    icon.className = currentSortDirection === 'asc' ? 'fas fa-sort-up ml-1' : 'fas fa-sort-down ml-1';
+                    
+                    sortData(column, currentSortDirection);
+                });
+            });
+
+            // التنقل بين الصفحات
+            document.getElementById('prevPage').addEventListener('click', function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderTable();
+                }
+            });
+
+            document.getElementById('nextPage').addEventListener('click', function() {
+                const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderTable();
+                }
+            });
+
+            // تحديث الرسم البياني الدائري عند النقر على زر التحديث
+            document.getElementById('refreshPieChart').addEventListener('click', function() {
+                // توليد بيانات عشوائية جديدة
+                const newData = [
+                    Math.floor(Math.random() * 50) + 20,
+                    Math.floor(Math.random() * 30) + 10,
+                    Math.floor(Math.random() * 20) + 5,
+                    Math.floor(Math.random() * 15) + 5,
+                    Math.floor(Math.random() * 10) + 1
+                ];
+                
+                pieChart.data.datasets[0].data = newData;
+                pieChart.update();
+                
+                // تأثير النبض عند التحديث
+                this.classList.add('pulse');
+                setTimeout(() => {
+                    this.classList.remove('pulse');
+                }, 2000);
+            });
+
+            // تفعيل/تعطيل أزرار الفلترة
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(b => {
+                        b.classList.remove('active', 'bg-blue-100', 'text-blue-600');
+                        b.classList.add('bg-gray-100', 'text-gray-600');
+                    });
+                    
+                    this.classList.add('active', 'bg-blue-100', 'text-blue-600');
+                    this.classList.remove('bg-gray-100', 'text-gray-600');
+                    
+                    // هنا يمكنك إضافة كود لتحديث الرسم البياني حسب الفلتر المحدد
+                });
+            });
+
+            // محاكاة تحديث البيانات الحية
+            function simulateLiveData() {
+                // تحديث بطاقات الإحصائيات
+                const cards = document.querySelectorAll('.grid-cols-4 > div');
+                cards.forEach(card => {
+                    const valueElement = card.querySelector('p.text-2xl');
+                    if (valueElement) {
+                        const currentValue = parseInt(valueElement.textContent.replace(/,/g, ''));
+                        const randomChange = Math.floor(Math.random() * 1000) - 500;
+                        const newValue = Math.max(0, currentValue + randomChange);
+                        valueElement.textContent = newValue.toLocaleString();
+                        
+                        // تحديث شريط التقدم
+                        const progressBar = card.querySelector('.h-1.bg-blue-500, .h-1.bg-green-500, .h-1.bg-purple-500, .h-1.bg-yellow-500');
+                        if (progressBar) {
+                            const newWidth = Math.min(100, Math.max(5, parseInt(progressBar.style.width) + (Math.random() * 10 - 5)));
+                            progressBar.style.width = newWidth + '%';
+                        }
+                    }
+                });
+                
+                // تحديث الرسم البياني الخطي
+                const lineData = lineChart.data.datasets[0].data;
+                lineData.shift();
+                const lastValue = lineData[lineData.length - 1];
+                const newValue = Math.max(0, lastValue + (Math.random() * 5000 - 2500));
+                lineData.push(newValue);
+                lineChart.update();
+            }
+            
+            // تشغيل تحديث البيانات كل 5 ثواني
+            setInterval(simulateLiveData, 5000);
+
+            // التهيئة الأولية
+            sortData(currentSortColumn, currentSortDirection);
+        });
+    </script>
+</body>
+</html>

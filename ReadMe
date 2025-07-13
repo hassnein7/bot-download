@@ -1,0 +1,37 @@
+مشروع: لوحة تحكم بيانات تفاعلية مُخصصة (Custom Interactive Data Dashboard)
+
+هذا المشروع هو تطبيق ويب مصغر يُجسد قدرتي على بناء واجهات مستخدم معاصرة وتفاعلية، مع التركيز على تصور البيانات الفعال (Data Visualization). تُقدم لوحة التحكم هذه تمثيلاً بصرياً لبيانات مُحاكة (Simulated Data) عبر رسوم بيانية تفاعلية، بطاقات إحصائيات رئيسية، وجداول بيانات قابلة للتصفية والترتيب.
+
+يُبرز المشروع المهارات التالية:
+
+HTML & CSS: تصميم واجهة مستخدم (UI) نظيفة، أنيقة، واستجابية (Responsive Design) باستخدام CSS Grid و Flexbox، مع اختيار لوحة ألوان عصرية وخطوط واضحة لتعزيز تجربة المستخدم البصرية.
+
+JavaScript:
+
+تفاعلات ديناميكية: إدارة تحديث البيانات المُحاكى (Simulated Live Data Updates)، تصفية البيانات ديناميكياً، وتوفير أزرار تبديل لعرض البيانات بأشكال مختلفة.
+
+تصور البيانات: دمج مكتبات رسوم بيانية (مثل Chart.js) لإنشاء رسوم بيانية خطية ودائرية تفاعلية.
+
+تجربة المستخدم (UX): التركيز على جعل لوحة التحكم بديهية وسهلة الاستخدام، مما يسمح للمستخدم باستكشاف البيانات بفعالية.
+
+يهدف هذا المشروع إلى إظهار قدرتي على تحويل البيانات إلى رؤى بصرية جذابة وتفاعلية، وهو دليل على فهمي لتصميم الواجهات الأمامية المعقدة وتطوير الويب المرتكز على البيانات.
+
+Project Description: Custom Interactive Data Dashboard (English):
+Project: Custom Interactive Data Dashboard
+
+This project is a miniature web application showcasing my ability to build modern, interactive user interfaces with a strong focus on effective data visualization. This dashboard provides a dynamic visual representation of simulated data through interactive charts, key metric cards, and filterable/sortable data tables.
+
+This project highlights the following skills:
+
+HTML & CSS: Designing a clean, elegant, and responsive user interface (UI) using CSS Grid and Flexbox. This includes selecting a contemporary color palette and clear typography to enhance the visual user experience.
+
+JavaScript:
+
+Dynamic Interactions: Managing simulated live data updates, dynamic data filtering, and providing toggles for various data display modes.
+
+Data Visualization: Integrating charting libraries (e.g., Chart.js) to create interactive line and pie charts.
+
+User Experience (UX): Focusing on making the dashboard intuitive and easy to navigate, allowing users to explore data efficiently.
+
+This project aims to demonstrate my capability in transforming data into engaging and interactive visual insights, serving as a testament to my understanding of complex frontend UI design and data-driven web development.
+
